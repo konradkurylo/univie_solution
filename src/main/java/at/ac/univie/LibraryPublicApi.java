@@ -114,7 +114,7 @@ public class LibraryPublicApi {
                         summaryInput.activityType(),
                         summaryInput.deviceName(),
                         summaryInput.maxHeartRateInBeatsPerMinute(),
-                        null
+                        summaryInput.durationInSeconds()
                 ),
                 List.of()
         );
