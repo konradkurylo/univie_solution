@@ -11,7 +11,7 @@ import java.util.List;
  * "user didn't record one single heartbeat, so library cannot process it"
  * therefore ill be testing only happy paths, at least for now
  */
-public class LibraryPublicApiProcessTest {
+public class LibraryPublicApiProcessActivityOverviewTest {
 
     @Test
     void testProcessUserIdMatches() {
