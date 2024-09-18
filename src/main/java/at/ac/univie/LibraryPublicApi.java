@@ -116,7 +116,7 @@ public class LibraryPublicApi {
                         summaryInput.maxHeartRateInBeatsPerMinute(),
                         summaryInput.durationInSeconds()
                 ),
-                List.of()
+                lapsInput.stream().map(e -> new Result.LapData(null, null, null, List.of())).toList()
         );
     }
 
