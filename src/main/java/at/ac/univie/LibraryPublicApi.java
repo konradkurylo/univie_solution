@@ -110,7 +110,11 @@ public class LibraryPublicApi {
     public static Result process(SummaryInput summaryInput, List<LapInput> lapsInput, List<SamplesDataInput> samplesDataInputs) {
         return new Result(
                 new Result.ActivityOverview(
-                        summaryInput.userId(), summaryInput.activityType(), summaryInput.deviceName(), null, null
+                        summaryInput.userId(),
+                        summaryInput.activityType(),
+                        summaryInput.deviceName(),
+                        summaryInput.maxHeartRateInBeatsPerMinute(),
+                        null
                 ),
                 List.of()
         );
