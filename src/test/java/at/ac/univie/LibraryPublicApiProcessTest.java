@@ -42,4 +42,19 @@ public class LibraryPublicApiProcessTest {
         Assertions.assertThat(result.activityOverview()).isNotNull();
         Assertions.assertThat(result.activityOverview().type()).isEqualTo(type);
     }
+
+    @Test
+    void testProcessDeviceMatches() {
+        // given
+        SummaryInput summaryInput = Fixture.summaryInputResult();
+        List<LapInput> lapInputs = Fixture.lapInputResult();
+        List<SamplesDataInput> samplesDataInputList = Fixture.sampleDataInputResult();
+        String deviceName = summaryInput.deviceName();
+        // when
+        Result result = LibraryPublicApi.process(summaryInput, lapInputs, samplesDataInputList);
+        // then
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result.activityOverview()).isNotNull();
+        Assertions.assertThat(result.activityOverview().device()).isEqualTo(deviceName);
+    }
 }
