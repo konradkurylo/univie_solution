@@ -72,4 +72,19 @@ public class LibraryPublicApiProcessTest {
         Assertions.assertThat(result.activityOverview()).isNotNull();
         Assertions.assertThat(result.activityOverview().maxHeartRate()).isEqualTo(maxHeartRate);
     }
+
+    @Test
+    void testProcessDurationMatches() {
+        // given
+        SummaryInput summaryInput = Fixture.summaryInputResult();
+        List<LapInput> lapInputs = Fixture.lapInputResult();
+        List<SamplesDataInput> samplesDataInputList = Fixture.sampleDataInputResult();
+        Long duration = summaryInput.durationInSeconds();
+        // when
+        Result result = LibraryPublicApi.process(summaryInput, lapInputs, samplesDataInputList);
+        // then
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result.activityOverview()).isNotNull();
+        Assertions.assertThat(result.activityOverview().duration()).isEqualTo(duration);
+    }
 }
