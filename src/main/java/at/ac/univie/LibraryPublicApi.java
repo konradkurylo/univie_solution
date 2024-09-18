@@ -1,7 +1,9 @@
 package at.ac.univie;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -31,6 +33,11 @@ public class LibraryPublicApi {
     private static final Logger LOGGER = LoggerFactory.getLogger(LibraryPublicApi.class);
 
     /**
+     * type reference for list of laps
+     */
+    private static final TypeReference<List<LapInput>> LIST_LAP_TYPE_REFERENCE = new TypeReference<>() {};
+
+    /**
      * A method to load summary, for now only support loading jsons,
      * @param source which is a path to json file
      * @return loaded Summary representation
@@ -38,8 +45,7 @@ public class LibraryPublicApi {
      */
     public static SummaryInput loadSummary(String source) {
         try {
-            Path filePath = Paths.get(source);
-            InputStream fileInputStream = Files.newInputStream(filePath);
+            InputStream fileInputStream = getFileInputStream(source);
             SummaryInput summaryInput = MAPPER.readValue(fileInputStream, SummaryInput.class);
             LOGGER.debug("Summary gets loaded from source: {}", source);
             return summaryInput;
@@ -47,11 +53,24 @@ public class LibraryPublicApi {
             LOGGER.error(String.format("Issue while loading summary from source: %s", source), e);
             throw new LibraryIssueWithLoadingDataException(String.format("Issue while loading summary from source: %s", source), e);
         }
-
     }
 
+    /**
+     * A method to load summary, for now only support loading jsons,
+     * @param source which is a path to json file
+     * @return loaded List of LapInput representation
+     * which is needed for {@link at.ac.univie.LibraryPublicApi#process(SummaryInput, List, List)}
+     */
     public static List<LapInput> loadLaps(String source) {
-        return List.of();
+        try {
+            InputStream fileInputStream = getFileInputStream(source);
+            List<LapInput> lapsInput = MAPPER.readValue(fileInputStream, LIST_LAP_TYPE_REFERENCE);
+            LOGGER.debug("Laps gets loaded from source: {}", source);
+            return lapsInput;
+        } catch (Exception e){
+            LOGGER.error(String.format("Issue while loading laps from source: %s", source), e);
+            throw new LibraryIssueWithLoadingDataException(String.format("Issue while loading laps from source: %s", source), e);
+        }
     }
 
     public static List<SamplesDataInput> loadSamplesData(String source) {
@@ -71,5 +90,16 @@ public class LibraryPublicApi {
 
     public static Result process(SummaryInput summaryInput, List<LapInput> lapsInput, List<SamplesDataInput> samplesDataInputs) {
         return null;
+    }
+
+    /**
+     * method to load input stream from file based on path to file
+     * @param source path to file
+     * @return input stream of the file
+     * @throws IOException when problem with creating input stream,
+     * for example file not found
+     */
+    private static InputStream getFileInputStream(String source) throws IOException {
+        return Files.newInputStream(Paths.get(source));
     }
 }
