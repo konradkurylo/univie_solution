@@ -38,6 +38,11 @@ public class LibraryPublicApi {
     private static final TypeReference<List<LapInput>> LIST_LAP_TYPE_REFERENCE = new TypeReference<>() {};
 
     /**
+     * type reference for list of samples data
+     */
+    private static final TypeReference<List<SamplesDataInput>> LIST_SAMPLES_DATA_TYPE_REFERENCE = new TypeReference<>() {};
+
+    /**
      * A method to load summary, for now only support loading jsons,
      * @param source which is a path to json file
      * @return loaded Summary representation
@@ -56,7 +61,7 @@ public class LibraryPublicApi {
     }
 
     /**
-     * A method to load summary, for now only support loading jsons,
+     * A method to load laps, for now only support loading jsons,
      * @param source which is a path to json file
      * @return loaded List of LapInput representation
      * which is needed for {@link at.ac.univie.LibraryPublicApi#process(SummaryInput, List, List)}
@@ -73,8 +78,22 @@ public class LibraryPublicApi {
         }
     }
 
+    /**
+     * A method to load samples data, for now only support loading jsons,
+     * @param source which is a path to json file
+     * @return loaded List of SamplesDataInput representation
+     * which is needed for {@link at.ac.univie.LibraryPublicApi#process(SummaryInput, List, List)}
+     */
     public static List<SamplesDataInput> loadSamplesData(String source) {
-        return List.of();
+        try {
+            InputStream fileInputStream = getFileInputStream(source);
+            List<SamplesDataInput> lapsInput = MAPPER.readValue(fileInputStream, LIST_SAMPLES_DATA_TYPE_REFERENCE);
+            LOGGER.debug("Samples data gets loaded from source: {}", source);
+            return lapsInput;
+        } catch (Exception e){
+            LOGGER.error(String.format("Issue while loading laps from source: %s", source), e);
+            throw new LibraryIssueWithLoadingDataException(String.format("Issue while loading samples data from source: %s", source), e);
+        }
     }
 
     /**
