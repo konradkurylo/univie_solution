@@ -27,4 +27,19 @@ public class LibraryPublicApiProcessTest {
         Assertions.assertThat(result.activityOverview()).isNotNull();
         Assertions.assertThat(result.activityOverview().userId()).isEqualTo(userId);
     }
+
+    @Test
+    void testProcessTypeMatches() {
+        // given
+        SummaryInput summaryInput = Fixture.summaryInputResult();
+        List<LapInput> lapInputs = Fixture.lapInputResult();
+        List<SamplesDataInput> samplesDataInputList = Fixture.sampleDataInputResult();
+        String type = summaryInput.activityType();
+        // when
+        Result result = LibraryPublicApi.process(summaryInput, lapInputs, samplesDataInputList);
+        // then
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result.activityOverview()).isNotNull();
+        Assertions.assertThat(result.activityOverview().type()).isEqualTo(type);
+    }
 }
