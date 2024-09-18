@@ -12,7 +12,7 @@ class LibraryPublicApiLoadSummaryTest {
 		// when
 		SummaryInput result = LibraryPublicApi.loadSummary(source);
 		// then
-		Assertions.assertThat(result).isEqualTo(summaryInputResult());
+		Assertions.assertThat(result).isEqualTo(Fixture.summaryInputResult());
 	}
 
 	@Test
@@ -33,21 +33,5 @@ class LibraryPublicApiLoadSummaryTest {
 		LibraryIssueWithLoadingDataException exception = org.junit.jupiter.api.Assertions.assertThrows(LibraryIssueWithLoadingDataException.class, () -> LibraryPublicApi.loadSummary(source));
 		// then
 		Assertions.assertThat(exception.getMessage()).isEqualTo("Issue while loading summary from source: src/test/resources/laps.json");
-	}
-
-	private SummaryInput summaryInputResult(){
-		return new SummaryInput(
-				 "1234567890",
-				 9480958402L,
-				 "Indoor Cycling",
-				 3667L,
-				 1661158927L,
-				 7200L,
-				 "INDOOR_CYCLING",
-				 150L,
-				 561L,
-				 "instinct2",
-				 190L
-		);
 	}
 }
