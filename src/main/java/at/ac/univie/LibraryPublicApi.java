@@ -108,7 +108,7 @@ public class LibraryPublicApi {
      */
 
     public static Result process(SummaryInput summaryInput, List<LapInput> lapsInput, List<SamplesDataInput> samplesDataInputs) {
-        return null;
+        return new Result(new Result.ActivityOverview(summaryInput.userId(), null, null, null, null), List.of());
     }
 
     /**
