@@ -119,7 +119,7 @@ public class LibraryPublicApi {
                         .map(e -> new Result.LapData(
                                 e.startTimeInSeconds(),
                                 e.totalDistanceInMeters(),
-                                null,
+                                e.timerDurationInSeconds(),
                                 List.of()))
                         .toList()
         );
