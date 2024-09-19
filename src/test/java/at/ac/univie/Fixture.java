@@ -7,13 +7,17 @@ import java.util.List;
  */
 class Fixture {
 
-    private Fixture() {}
-
     /**
      * i made assumption that laps can be uniquely identified by its startTime
      */
     static final long FIRST_LAP_IDENTIFIER = 1661158927L;
     static final long SECOND_LAP_IDENTIFIER = 1661158929L;
+
+    /**
+     * just a bunch of private methods - no need to initiate
+     */
+    private Fixture() {}
+
 
     static SummaryInput summaryInputResult(){
         return new SummaryInput(
@@ -111,4 +115,5 @@ class Fixture {
                 )
         );
     }
+
 }
