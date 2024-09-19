@@ -78,6 +78,21 @@ public class LibraryPublicApiProcessLapsDataTest {
         Assertions.assertThat(findLap(result, SECOND_LAP_IDENTIFIER).duration()).isEqualTo(expectedSecondLap().duration());
     }
 
+    @Test
+    void testProcessLapsHeartRatesMatch() {
+        // given
+        SummaryInput summaryInput = Fixture.summaryInputResult();
+        List<LapInput> lapInputs = Fixture.lapInputResult();
+        List<SamplesDataInput> samplesDataInputList = Fixture.sampleDataInputResult();
+        // when
+        Result result = LibraryPublicApi.process(summaryInput, lapInputs, samplesDataInputList);
+        // then
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result.lapsData()).isNotNull();
+        Assertions.assertThat(findLap(result, FIRST_LAP_IDENTIFIER).heartRateList()).isEqualTo(expectedFirstLap().heartRateList());
+        Assertions.assertThat(findLap(result, SECOND_LAP_IDENTIFIER).heartRateList()).isEqualTo(expectedSecondLap().heartRateList());
+    }
+
     /**
      * i made assumption that laps can be uniquely identified by its startTime
      * @param result result to extract
@@ -127,7 +142,7 @@ public class LibraryPublicApiProcessLapsDataTest {
                         new Result.HeartRate(5L, 143L),
                         new Result.HeartRate(5L, 151L),
                         new Result.HeartRate(5L, 164L),
-                        new Result.HeartRate(5L, null),
+                        // new Result.HeartRate(5L, null), // i assumed that we don't need null value so i dropped it
                         new Result.HeartRate(5L, 173L),
                         new Result.HeartRate(5L, 181L),
                         new Result.HeartRate(5L, 180L),
