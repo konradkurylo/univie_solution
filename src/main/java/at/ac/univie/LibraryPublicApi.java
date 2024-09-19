@@ -3,11 +3,8 @@ package at.ac.univie;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -36,15 +33,6 @@ public class LibraryPublicApi {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(LibraryPublicApi.class);
 
-    /**
-     * type reference for list of laps
-     */
-    private static final TypeReference<List<LapInput>> LIST_LAP_TYPE_REFERENCE = new TypeReference<>() {};
-
-    /**
-     * type reference for list of samples data
-     */
-    private static final TypeReference<List<SamplesDataInput>> LIST_SAMPLES_DATA_TYPE_REFERENCE = new TypeReference<>() {};
 
     /**
      * "2" means heartbeat data set, that is what documentation said
@@ -63,15 +51,7 @@ public class LibraryPublicApi {
      * which is needed for {@link at.ac.univie.LibraryPublicApi#process(SummaryInput, List, List)}
      */
     public static SummaryInput loadSummary(Path source) {
-        try {
-            InputStream fileInputStream = getFileInputStream(source);
-            SummaryInput summaryInput = MAPPER.readValue(fileInputStream, SummaryInput.class);
-            LOGGER.debug("Summary gets loaded from source: {}", source);
-            return summaryInput;
-        } catch (Exception e){
-            LOGGER.error(String.format("Issue while loading summary from source: %s", source), e);
-            throw new LibraryIssueWithLoadingDataException(String.format("Issue while loading summary from source: %s", source), e);
-        }
+        return Loader.loadSummary(source);
     }
 
     /**
@@ -81,15 +61,7 @@ public class LibraryPublicApi {
      * which is needed for {@link at.ac.univie.LibraryPublicApi#process(SummaryInput, List, List)}
      */
     public static List<LapInput> loadLaps(Path source) {
-        try {
-            InputStream fileInputStream = getFileInputStream(source);
-            List<LapInput> lapsInput = MAPPER.readValue(fileInputStream, LIST_LAP_TYPE_REFERENCE);
-            LOGGER.debug("Laps gets loaded from source: {}", source);
-            return lapsInput;
-        } catch (Exception e){
-            LOGGER.error(String.format("Issue while loading laps from source: %s", source), e);
-            throw new LibraryIssueWithLoadingDataException(String.format("Issue while loading laps from source: %s", source), e);
-        }
+        return Loader.loadLaps(source);
     }
 
     /**
@@ -99,24 +71,16 @@ public class LibraryPublicApi {
      * which is needed for {@link at.ac.univie.LibraryPublicApi#process(SummaryInput, List, List)}
      */
     public static List<SamplesDataInput> loadSamplesData(Path source) {
-        try {
-            InputStream fileInputStream = getFileInputStream(source);
-            List<SamplesDataInput> lapsInput = MAPPER.readValue(fileInputStream, LIST_SAMPLES_DATA_TYPE_REFERENCE);
-            LOGGER.debug("Samples data gets loaded from source: {}", source);
-            return lapsInput;
-        } catch (Exception e){
-            LOGGER.error(String.format("Issue while loading laps from source: %s", source), e);
-            throw new LibraryIssueWithLoadingDataException(String.format("Issue while loading samples data from source: %s", source), e);
-        }
+        return Loader.loadSamplesData(source);
     }
 
     /**
      * I had a mixed feeling between creating process method that takes inputs from previous supplier methods
      * and creating a stateful library, since I treat stateful as greater evil, first options has been chosen
      *
-     * @param summaryInput taken from output of {@link at.ac.univie.LibraryPublicApi#loadSamplesData(String)}
-     * @param lapsInput taken from output of {@link at.ac.univie.LibraryPublicApi#loadSamplesData(String)}
-     * @param samplesDataInputs taken from output of {@link at.ac.univie.LibraryPublicApi#loadSamplesData(String)}
+     * @param summaryInput taken from output of {@link at.ac.univie.LibraryPublicApi#loadSamplesData(Path)}
+     * @param lapsInput taken from output of {@link at.ac.univie.LibraryPublicApi#loadSamplesData(Path)}
+     * @param samplesDataInputs taken from output of {@link at.ac.univie.LibraryPublicApi#loadSamplesData(Path)}
      *
      * @return result described in software-engineer-task.md
      */
@@ -196,16 +160,5 @@ public class LibraryPublicApi {
         } catch (Exception e){
             return false;
         }
-    }
-
-    /**
-     * method to load input stream from file based on path to file
-     * @param source path to file
-     * @return input stream of the file
-     * @throws IOException when problem with creating input stream,
-     * for example file not found
-     */
-    private static InputStream getFileInputStream(Path source) throws IOException {
-        return Files.newInputStream(source);
     }
 }
