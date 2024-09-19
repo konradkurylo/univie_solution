@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -122,7 +123,7 @@ public class LibraryPublicApi {
 
     public static Result process(SummaryInput summaryInput, List<LapInput> lapsInput, List<SamplesDataInput> samplesDataInputs) {
         Map<LapInput, List<IndexedSamplesDataInput>> splitSamplesDataIntoLaps = new HashMap<>();
-        int processedSamplesDataIndex = 0; // java list starts from 1
+        int processedSamplesDataIndex = 0;
         for (LapInput key: lapsInput) {
             LOGGER.debug("start processing lap with startTime {}, starting from sample data iterator {}", key.startTimeInSeconds(), processedSamplesDataIndex);
             List<IndexedSamplesDataInput> value = new ArrayList<>();
@@ -166,6 +167,15 @@ public class LibraryPublicApi {
                                         ).toList()))
                         .toList()
         );
+    }
+
+    /**
+     * method to store result as json in desired directory
+     * @param result result of {@link at.ac.univie.LibraryPublicApi#process(SummaryInput, List, List)} method
+     * @param targetPath that contain target directory and target file name
+     */
+    public static void writeResultToJson(Result result, Path targetPath){
+
     }
 
     /**
