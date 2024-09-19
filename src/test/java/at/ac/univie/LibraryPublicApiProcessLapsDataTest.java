@@ -63,6 +63,21 @@ public class LibraryPublicApiProcessLapsDataTest {
         Assertions.assertThat(findLap(result, SECOND_LAP_IDENTIFIER).distance()).isEqualTo(expectedSecondLap().distance());
     }
 
+    @Test
+    void testProcessLapDurationMatches() {
+        // given
+        SummaryInput summaryInput = Fixture.summaryInputResult();
+        List<LapInput> lapInputs = Fixture.lapInputResult();
+        List<SamplesDataInput> samplesDataInputList = Fixture.sampleDataInputResult();
+        // when
+        Result result = LibraryPublicApi.process(summaryInput, lapInputs, samplesDataInputList);
+        // then
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result.lapsData()).isNotNull();
+        Assertions.assertThat(findLap(result, FIRST_LAP_IDENTIFIER).duration()).isEqualTo(expectedFirstLap().duration());
+        Assertions.assertThat(findLap(result, SECOND_LAP_IDENTIFIER).duration()).isEqualTo(expectedSecondLap().duration());
+    }
+
     /**
      * i made assumption that laps can be uniquely identified by its startTime
      * @param result result to extract
