@@ -175,9 +175,12 @@ public class LibraryPublicApi {
      * @param targetPath that contain target directory and target file name
      */
     public static void writeResultToJson(Result result, Path targetPath){
-        Throwable e = new Throwable();
-        LOGGER.error(String.format("Issue while writing to file: %s", targetPath.toString()), e);
-        throw new LibraryIssueWithWritingDataException(String.format("Issue while writing to file: %s", targetPath), e);
+        try{
+            Files.writeString(targetPath, "");
+        } catch (Exception e){
+            LOGGER.error(String.format("Issue while writing to file: %s", targetPath.toString()), e);
+            throw new LibraryIssueWithWritingDataException(String.format("Issue while writing to file: %s", targetPath), e);
+        }
     }
 
     /**
