@@ -3,12 +3,14 @@ package at.ac.univie;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Path;
+
 class LibraryPublicApiLoadSummaryTest {
 
 	@Test
 	void testLoadSummaryHappyPath() {
 		// given
-		String source = "src/test/resources/summary.json";
+		Path source = Path.of("src/test/resources/summary.json");
 		// when
 		SummaryInput result = LibraryPublicApi.loadSummary(source);
 		// then
@@ -18,7 +20,7 @@ class LibraryPublicApiLoadSummaryTest {
 	@Test
 	void testLoadSummarySadPathNonExistingJson() {
 		// given
-		String source = "/non-existing.json";
+		Path source = Path.of("/non-existing.json");
 		// when
 		LibraryIssueWithLoadingDataException exception = org.junit.jupiter.api.Assertions.assertThrows(LibraryIssueWithLoadingDataException.class, () -> LibraryPublicApi.loadSummary(source));
 		// then
@@ -28,7 +30,7 @@ class LibraryPublicApiLoadSummaryTest {
 	@Test
 	void testLoadSummarySadPathWrongJson() {
 		// given
-		String source = "src/test/resources/laps.json";
+		Path source = Path.of("src/test/resources/laps.json");
 		// when
 		LibraryIssueWithLoadingDataException exception = org.junit.jupiter.api.Assertions.assertThrows(LibraryIssueWithLoadingDataException.class, () -> LibraryPublicApi.loadSummary(source));
 		// then

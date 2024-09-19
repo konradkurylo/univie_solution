@@ -62,7 +62,7 @@ public class LibraryPublicApi {
      * @return loaded Summary representation
      * which is needed for {@link at.ac.univie.LibraryPublicApi#process(SummaryInput, List, List)}
      */
-    public static SummaryInput loadSummary(String source) {
+    public static SummaryInput loadSummary(Path source) {
         try {
             InputStream fileInputStream = getFileInputStream(source);
             SummaryInput summaryInput = MAPPER.readValue(fileInputStream, SummaryInput.class);
@@ -80,7 +80,7 @@ public class LibraryPublicApi {
      * @return loaded List of LapInput representation
      * which is needed for {@link at.ac.univie.LibraryPublicApi#process(SummaryInput, List, List)}
      */
-    public static List<LapInput> loadLaps(String source) {
+    public static List<LapInput> loadLaps(Path source) {
         try {
             InputStream fileInputStream = getFileInputStream(source);
             List<LapInput> lapsInput = MAPPER.readValue(fileInputStream, LIST_LAP_TYPE_REFERENCE);
@@ -98,7 +98,7 @@ public class LibraryPublicApi {
      * @return loaded List of SamplesDataInput representation
      * which is needed for {@link at.ac.univie.LibraryPublicApi#process(SummaryInput, List, List)}
      */
-    public static List<SamplesDataInput> loadSamplesData(String source) {
+    public static List<SamplesDataInput> loadSamplesData(Path source) {
         try {
             InputStream fileInputStream = getFileInputStream(source);
             List<SamplesDataInput> lapsInput = MAPPER.readValue(fileInputStream, LIST_SAMPLES_DATA_TYPE_REFERENCE);
@@ -205,7 +205,7 @@ public class LibraryPublicApi {
      * @throws IOException when problem with creating input stream,
      * for example file not found
      */
-    private static InputStream getFileInputStream(String source) throws IOException {
-        return Files.newInputStream(Paths.get(source));
+    private static InputStream getFileInputStream(Path source) throws IOException {
+        return Files.newInputStream(source);
     }
 }

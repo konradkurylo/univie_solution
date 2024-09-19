@@ -19,7 +19,7 @@ public class IntegrationTest {
         /**
          * this is how library should be used
          */
-        void run(String summaryPath, String lapsPath, String sampleDataPath, Path targetResultPath){
+        void run(Path summaryPath, Path lapsPath, Path sampleDataPath, Path targetResultPath){
             SummaryInput summaryInput = LibraryPublicApi.loadSummary(summaryPath);
             List<LapInput> lapInputs = LibraryPublicApi.loadLaps(lapsPath);
             List<SamplesDataInput> samplesDataInputList = LibraryPublicApi.loadSamplesData(sampleDataPath);
@@ -31,9 +31,9 @@ public class IntegrationTest {
     @Test
     void integrationTest(){
         // given
-        String summaryPath = "src/test/resources/summary.json";
-        String lapsPath = "src/test/resources/laps.json";
-        String sampleDataPath = "src/test/resources/samples-data.json";
+        Path summaryPath = Path.of("src/test/resources/summary.json");
+        Path lapsPath = Path.of("src/test/resources/laps.json");
+        Path sampleDataPath = Path.of("src/test/resources/samples-data.json");
         Path targetResultPath = Path.of(String.format("src/test/resources/result_integration_%s.json", System.currentTimeMillis()));
         LibraryClient libraryClient = new LibraryClient();
 

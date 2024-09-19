@@ -3,6 +3,7 @@ package at.ac.univie;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Path;
 import java.util.List;
 
 class LibraryPublicApiLoadSamplesDataTest {
@@ -10,7 +11,7 @@ class LibraryPublicApiLoadSamplesDataTest {
     @Test
     void testLoadDataSamplesHappyPath() {
         // given
-        String source = "src/test/resources/samples-data.json";
+        Path source = Path.of("src/test/resources/samples-data.json");
         // when
         List<SamplesDataInput> result = LibraryPublicApi.loadSamplesData(source);
         // then
@@ -20,7 +21,7 @@ class LibraryPublicApiLoadSamplesDataTest {
     @Test
     void testLoadDataSamplesSadPathNonExistingJson() {
         // given
-        String source = "/non-existing.json";
+        Path source = Path.of("/non-existing.json");
         // when
         LibraryIssueWithLoadingDataException exception = org.junit.jupiter.api.Assertions.assertThrows(LibraryIssueWithLoadingDataException.class, () -> LibraryPublicApi.loadSamplesData(source));
         // then
@@ -30,7 +31,7 @@ class LibraryPublicApiLoadSamplesDataTest {
     @Test
     void testLoadDataSamplesSadPathWrongJson() {
         // given
-        String source = "src/test/resources/summary.json";
+        Path source = Path.of("src/test/resources/summary.json");
         // when
         LibraryIssueWithLoadingDataException exception = org.junit.jupiter.api.Assertions.assertThrows(LibraryIssueWithLoadingDataException.class, () -> LibraryPublicApi.loadSamplesData(source));
         // then
