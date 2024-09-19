@@ -25,5 +25,5 @@ public record Result(ActivityOverview activityOverview, List<LapData> lapsData) 
     /**
      * Heart rate samples should be presented as an array of objects containing two keys: sample index and heart rate.
      */
-    public record HeartRate(String sampleIndex, Long heartRate) { }
+    public record HeartRate(Long sampleIndex, Long heartRate) { }
 }
