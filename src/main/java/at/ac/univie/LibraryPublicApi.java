@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import org.slf4j.Logger;
@@ -116,7 +115,7 @@ public class LibraryPublicApi {
                         summaryInput.maxHeartRateInBeatsPerMinute(),
                         summaryInput.durationInSeconds()
                 ),
-                lapsInput.stream().map(e -> new Result.LapData(null, null, null, List.of())).toList()
+                lapsInput.stream().map(e -> new Result.LapData(e.startTimeInSeconds(), null, null, List.of())).toList()
         );
     }
 
