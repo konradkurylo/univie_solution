@@ -176,7 +176,8 @@ public class LibraryPublicApi {
      */
     public static void writeResultToJson(Result result, Path targetPath){
         try{
-            Files.writeString(targetPath, "");
+            String outputString = MAPPER.writeValueAsString(result);
+            Files.writeString(targetPath, outputString);
         } catch (Exception e){
             LOGGER.error(String.format("Issue while writing to file: %s", targetPath.toString()), e);
             throw new LibraryIssueWithWritingDataException(String.format("Issue while writing to file: %s", targetPath), e);
