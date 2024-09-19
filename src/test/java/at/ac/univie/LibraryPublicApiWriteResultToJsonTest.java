@@ -1,5 +1,6 @@
 package at.ac.univie;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -7,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 class LibraryPublicApiWriteResultToJsonTest {
+	private static final ObjectMapper MAPPER = new ObjectMapper();
 
 	@Test
 	void writeResultToJsonHappyPathJustCheckTheFileExists() {
@@ -17,6 +19,18 @@ class LibraryPublicApiWriteResultToJsonTest {
 		LibraryPublicApi.writeResultToJson(result, path);
 		// then
 		Assertions.assertThat(doesFileExist(path)).isTrue();
+	}
+
+
+	@Test
+	void writeResultToJsonHappyPathCompareOutput() {
+		// given
+		Path path = Path.of(String.format("src/test/resources/result_%s.json", System.currentTimeMillis()));
+		Result result = Fixture.result();
+		// when
+		LibraryPublicApi.writeResultToJson(result, path);
+		// then
+		Assertions.assertThat(readFile(path)).isEqualTo(result);
 	}
 
 	@Test
@@ -48,6 +62,18 @@ class LibraryPublicApiWriteResultToJsonTest {
 			return true;
 		} catch (Exception e) {
 			return false;
+		}
+	}
+
+	/**
+	 * just a simply utility method to read the file into Result object
+	 * there is no test for it since production code is doing the same but with other java types
+	 */
+	private Result readFile(Path path){
+		try{
+			return MAPPER.readValue(Files.newInputStream(path), Result.class);
+		} catch (Exception e) {
+			throw new RuntimeException("Just a runtime exception to break the test if needed");
 		}
 	}
 }
