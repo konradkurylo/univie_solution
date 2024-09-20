@@ -142,3 +142,19 @@ Benefits: I can go further with implementation of the task solution, my assumpti
 Drawbacks: my assumption can be wrong
 
 Alternative: assume other way :)
+
+### ADR 8
+
+Date: 2024-09-20
+
+Problem: I need to present code coverage of solution
+
+Drivers: One of task objectives is code coverage above 80%, code coverage needs to be easy to generate and read
+
+Decision: use jacoco plugin
+
+Benefits: Easy to generate and read
+
+Drawbacks: yet another plugin in pom
+
+Alternative: -
