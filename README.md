@@ -5,6 +5,27 @@ You need jdk 17 and maven to build this project.
 https://adoptium.net/en-GB/
 https://maven.apache.org/
 
+to compile code:
+```shell
+mvn clean compile test-compile
+```
+to build and install artifact locally:
+```shell
+mvn clean install
+```
+to run tests with coverage
+```shell
+mvn clean test jacoco:report
+```
+report is visible here:
+
+target/site/jacoco/index.html
+target/site/jacoco/index.csv
+
+last coverage is 100% and that is the proof:
+
+![coverage.png](docs/coverage.png)
+
 Since I needed to make some decisions during development this solution I have decided to list them here as ADRs.
 
 ## ADR
