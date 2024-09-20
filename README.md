@@ -135,7 +135,7 @@ Drivers: I need that information to properly solve task, however since I am usin
 
 Decision: assume meaning of "sample index" as it is presented below:
 
-![img.png](docs/img.png)
+![img.png](docs/assumption.png)
 
 Benefits: I can go further with implementation of the task solution, my assumption can be wrong
 
