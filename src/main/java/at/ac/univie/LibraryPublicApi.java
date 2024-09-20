@@ -1,15 +1,12 @@
 package at.ac.univie;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
 /**
  * library entry point, a bunch of static stateless methods
+ * since it is only an entry point to library, there is no implementation here,
+ * only facade/delegation pattern
  */
 public class LibraryPublicApi {
 
@@ -17,16 +14,6 @@ public class LibraryPublicApi {
      * why even need to initialize it, just a bunch of static library methods
      */
     private LibraryPublicApi(){}
-
-    /**
-     * we need to be dependent on some json mapping library, I have picked com.fasterxml.jackson as a choice
-     */
-    private static final ObjectMapper MAPPER = new ObjectMapper();
-
-    /**
-     * a logger
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(LibraryPublicApi.class);
 
     /**
      * A method to load summary, for now only support loading jsons,
@@ -79,12 +66,6 @@ public class LibraryPublicApi {
      * @param targetPath that contain target directory and target file name
      */
     public static void writeResultToJson(Result result, Path targetPath){
-        try{
-            String outputString = MAPPER.writeValueAsString(result);
-            Files.writeString(targetPath, outputString);
-        } catch (Exception e){
-            LOGGER.error(String.format("Issue while writing to file: %s", targetPath.toString()), e);
-            throw new LibraryIssueWithWritingDataException(String.format("Issue while writing to file: %s", targetPath), e);
-        }
+        Writer.writeResultToJson(result, targetPath);
     }
 }
