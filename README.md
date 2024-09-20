@@ -1,5 +1,10 @@
 # About solution
 
+You need jdk 17 and maven to build this project.
+
+https://adoptium.net/en-GB/
+https://maven.apache.org/
+
 Since I needed to make some decisions during development this solution I have decided to list them here as ADRs.
 
 ## ADR
